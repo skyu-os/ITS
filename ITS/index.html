@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ITS 地图与交通/天气</title>
+  <link rel="stylesheet" href="./assets/style.css" />
+  <!-- 高德地图安全密钥（需在加载JSAPI之前设置） -->
+  <script>
+    window._AMapSecurityConfig = {
+      securityJsCode: '86df572bc935c2874d78a25289bab364'
+    };
+  </script>
+  <!-- 高德地图 JS API v2 -->
+  <script src="https://webapi.amap.com/maps?v=2.0&key=3809941af1ec00b87b03a1278c07d9f4"></script>
+</head>
+<body>
+  <header class="app-header">
+    <h1>城市交通与天气监控</h1>
+  </header>
+
+  <section class="controls">
+    <div class="control-group">
+      <label class="switch">
+        <input type="checkbox" id="traffic-toggle" />
+        <span class="slider"></span>
+      </label>
+      <span class="label">显示交通拥堵图层</span>
+    </div>
+
+    <div class="control-group weather">
+      <input id="city-input" type="text" placeholder="输入城市（如：杭州市、北京市）" value="杭州市" />
+      <button id="btn-change-city">切换城市</button>
+      <button id="btn-live">查询实时天气</button>
+      <button id="btn-forecast">查询天气预报</button>
+    </div>
+
+    <div class="control-group routing">
+      <input id="origin-input" type="text" placeholder="起点（地址或经纬度：lng,lat）" />
+      <input id="dest-input" type="text" placeholder="终点（地址或经纬度：lng,lat）" />
+      <select id="route-mode" title="交通方式">
+        <option value="driving">驾车</option>
+        <option value="transfer">公交/地铁</option>
+        <option value="walking">步行</option>
+        <option value="riding">骑行</option>
+        <option value="taxi">出租车</option>
+      </select>
+      <button id="btn-route">开始规划</button>
+      <button id="btn-clear-route">清除路线</button>
+    </div>
+
+    <!-- 新增：路径规划策略和路况显示开关 -->
+    <div class="control-group routing-opts">
+      <label class="label">策略</label>
+      <select id="route-policy">
+        <option value="LEAST_TIME">最快时间</option>
+        <option value="LEAST_DISTANCE">最短距离</option>
+        <option value="LEAST_FEE">费用最少</option>
+      </select>
+      <label class="label"><input type="checkbox" id="route-show-traffic" /> 显示实时路况</label>
+    </div>
+
+    <!-- 新增：交通态势查询控件 -->
+    <div class="control-group traffic-status">
+      <label class="label">态势类型</label>
+      <select id="traffic-type">
+        <option value="circle">圆形</option>
+        <option value="rectangle">矩形</option>
+      </select>
+      <input id="traffic-radius" type="number" min="1" max="5" step="1" value="3" placeholder="半径（公里）" />
+      <label class="label"><input type="checkbox" id="traffic-autorefresh" /> 自动刷新</label>
+      <input id="traffic-ws-key" type="password" placeholder="Web服务Key（restapi）" />
+      <button id="btn-traffic-query">查询态势</button>
+      <button id="btn-traffic-clear">清除态势</button>
+    </div>
+
+    <!-- 新增：商圈分析控件 -->
+    <div class="control-group biz-analyze">
+      <label class="label">商圈半径</label>
+      <input id="biz-radius" type="number" min="0.5" max="5" step="0.5" value="1.0" placeholder="半径（公里）" />
+      <button id="btn-biz-analyze">开始分析</button>
+      <button id="btn-biz-export">导出报告</button>
+    </div>
+  </section>
+
+  <main class="main">
+    <div id="map" class="map"></div>
+    <aside class="sidebar">
+      <div class="card">
+        <h3>路线规划</h3>
+        <div id="route-panel" class="route-panel">在此显示路线详情</div>
+      </div>
+      <div class="card">
+        <h3>交通态势</h3>
+        <div id="traffic-status-panel" class="traffic-panel empty">暂无数据</div>
+      </div>
+      <div class="card">
+        <h3>商圈分析报告</h3>
+        <div id="biz-report" class="biz-panel empty">暂无数据</div>
+      </div>
+      <div class="card">
+        <h3>实时天气</h3>
+        <div id="weather-live" class="weather-content empty">暂无数据</div>
+      </div>
+      <div class="card">
+        <h3>天气预报</h3>
+        <div id="weather-forecast" class="weather-content empty">暂无数据</div>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="app-footer">
+    <small>地图与数据来自高德地图 · 仅用于演示</small>
+  </footer>
+
+  <script src="./assets/app.js"></script>
+</body>
+</html>

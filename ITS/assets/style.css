@@ -1,0 +1,129 @@
+/* 基础样式与布局 */
+:root {
+  --bg: #0b1020;
+  --panel: #141a2e;
+  --text: #e8edf7;
+  --muted: #a9b3c9;
+  --primary: #3b82f6;
+  --success: #22c55e;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+.app-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 20px; border-bottom: 1px solid #1f2742; background: var(--panel);
+}
+.app-header h1 { font-size: 18px; margin: 0; }
+.controls {
+  display: flex; flex-wrap: wrap; gap: 12px; padding: 12px 20px; background: #0f1528; border-bottom: 1px solid #1f2742;
+}
+.control-group { display: flex; align-items: center; gap: 10px; }
+.control-group.weather input { width: 220px; padding: 8px 10px; border-radius: 8px; border: 1px solid #263055; background: #0d1325; color: var(--text); }
+.control-group.weather button { padding: 8px 12px; border-radius: 8px; border: 1px solid #263055; background: #18203a; color: var(--text); cursor: pointer; }
+.control-group.weather button:hover { background: #1c2746; }
+.control-group.routing input { width: 240px; padding: 8px 10px; border-radius: 8px; border: 1px solid #263055; background: #0d1325; color: var(--text); }
+.control-group.routing button { padding: 8px 12px; border-radius: 8px; border: 1px solid #263055; background: #18203a; color: var(--text); cursor: pointer; }
+.control-group.routing button:hover { background: #1c2746; }
+.route-panel { min-height: 120px; font-size: 13px; color: var(--muted); }
+.label { color: var(--muted); }
+
+.main { display: grid; grid-template-columns: 1fr 340px; gap: 12px; padding: 12px; height: calc(100vh - 140px); }
+.map { width: 100%; height: 100%; border-radius: 12px; overflow: hidden; background: #0d1325; }
+.sidebar { height: 100%; overflow: auto; }
+.card { background: var(--panel); border: 1px solid #1f2742; border-radius: 12px; padding: 12px; margin-bottom: 12px; }
+.weather-content.empty { color: var(--muted); }
+.weather-item { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed #2a345a; }
+.weather-item:last-child { border-bottom: none; }
+.badge { display: inline-block; padding: 2px 6px; border-radius: 6px; font-size: 12px; background: #1e293b; color: var(--text); }
+.badge.success { background: #15341f; color: #79e2a9; border: 1px solid #214f2f; }
+
+.app-footer { padding: 10px 20px; border-top: 1px solid #1f2742; color: var(--muted); }
+
+/* 交通开关样式 */
+.switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+.switch input { display:none; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #263055; transition: .2s; border-radius: 24px; }
+.slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .2s; border-radius: 50%; }
+input:checked + .slider { background-color: var(--primary); }
+input:checked + .slider:before { transform: translateX(20px); }
+
+/* 新增：路径策略与态势控件样式 */
+.control-group.routing-opts select,
+.control-group.routing-opts input[type="checkbox"],
+.control-group.traffic-status select,
+.control-group.traffic-status input,
+.control-group.traffic-status button {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #263055;
+  background: #0d1325;
+  color: var(--text);
+}
+.control-group.routing-opts select { background: #18203a; }
+.control-group.traffic-status button { background: #18203a; cursor: pointer; }
+.control-group.traffic-status button:hover { background: #1c2746; }
+
+/* 交通态势面板样式 */
+.traffic-panel.empty { color: var(--muted); }
+.traffic-panel .item { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed #2a345a; }
+.traffic-panel .item:last-child { border-bottom: none; }
+
+/* 交通态势查询控件样式补充 */
+.control-group.traffic-status input#traffic-ws-key {
+  width: 220px;
+  padding: 6px 8px;
+  background: #0f172a;
+  color: #e5e7eb;
+  border: 1px solid #334155;
+  border-radius: 4px;
+}
+@media (max-width: 800px) {
+  .control-group.traffic-status input#traffic-ws-key { width: 100%; }
+}
+
+.control-group.biz-analyze {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.control-group.biz-analyze .label {
+  min-width: 72px;
+}
+#biz-radius {
+  width: 140px;
+}
+#btn-biz-analyze, #btn-biz-export {
+  padding: 6px 12px;
+}
+
+/* 报告面板 */
+.biz-panel {
+  min-height: 120px;
+}
+.biz-panel .item {
+  display: flex;
+  justify-content: space-between;
+  margin: 4px 0;
+}
+.biz-panel .badge {
+  background: #1f2937;
+  color: #fff;
+  border-radius: 10px;
+  padding: 0 8px;
+  font-size: 12px;
+}
+
+/* 简易图表容器（SVG） */
+.chart {
+  width: 100%;
+  height: 160px;
+}
+@media (max-width: 640px) {
+  #biz-radius { width: 110px; }
+}
